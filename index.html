@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fight Night Betting</title>
+<style>
+    body {
+        font-family: Arial;
+        background: #0f172a;
+        color: white;
+        text-align: center;
+    }
+    .container {
+        max-width: 400px;
+        margin: auto;
+        background: #1e293b;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    button {
+        padding: 10px;
+        margin: 5px;
+        width: 45%;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .fighter {
+        background: #334155;
+    }
+    input {
+        padding: 10px;
+        width: 80%;
+        margin: 10px;
+        border-radius: 5px;
+        border: none;
+    }
+    .pay-btn {
+        background: #22c55e;
+        color: black;
+        width: 80%;
+    }
+    .result {
+        margin-top: 10px;
+        color: #22c55e;
+    }
+    .mpesa-box {
+        margin-top: 15px;
+        background: #020617;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #94a3b8;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🔥 Majembe vs Mbavu 🔥</h2>
+    <p>📅 4th April</p>
+
+    <h3>Select Fighter</h3>
+    <button class="fighter" onclick="selectFighter('Majembe')">Majembe (2.0)</button>
+    <button class="fighter" onclick="selectFighter('Mbavu')">Mbavu (2.0)</button>
+
+    <h3>Enter Stake (KSh)</h3>
+    <input type="number" id="stake" placeholder="e.g. 500">
+
+    <div class="result" id="output"></div>
+
+    <button class="pay-btn" onclick="showPayment()">Pay via M-Pesa</button>
+
+    <div id="paymentSection" style="display:none;">
+        <div class="mpesa-box">
+            <p><b>Send Money To:</b> 0702776846</p>
+            <p>Use M-Pesa → Send Money</p>
+            <p>Enter Amount & Confirm</p>
+        </div>
+
+        <input type="text" id="code" placeholder="Enter M-Pesa Code">
+        <button class="pay-btn" onclick="confirmPayment()">Confirm Payment</button>
+    </div>
+
+    <div id="confirmation" class="result"></div>
+</div>
+
+<div class="footer">
+    ⚠️ 18+ Only | Demo Betting Interface
+</div>
+
+<script>
+let selected = "";
+
+function selectFighter(name) {
+    selected = name;
+    calculate();
+}
+
+document.getElementById("stake").addEventListener("input", calculate);
+
+function calculate() {
+    let stake = document.getElementById("stake").value;
+    let output = document.getElementById("output");
+
+    if (!selected || stake <= 0) {
+        output.innerHTML = "";
+        return;
+    }
+
+    let payout = stake * 2.0;
+
+    output.innerHTML = `
+        Selected: <b>${selected}</b><br>
+        Stake: KSh ${stake}<br>
+        Payout: <b>KSh ${payout}</b>
+    `;
+}
+
+function showPayment() {
+    if (!selected || !document.getElementById("stake").value) {
+        alert("Select fighter and enter stake first");
+        return;
+    }
+    document.getElementById("paymentSection").style.display = "block";
+}
+
+function confirmPayment() {
+    let code = document.getElementById("code").value;
+
+    if (!code) {
+        alert("Enter M-Pesa code");
+        return;
+    }
+
+    document.getElementById("confirmation").innerHTML =
+        "✅ Payment received! Your bet has been recorded.";
+}
+</script>
+
+</body>
+</html>
